@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillSwap Platform</title>
+  <link rel="stylesheet" href="home.css" />
+</head><body>  <div class="app-container">
+    <header>
+      <h1>SkillSwap Hub</h1>
+      <div class="header-right">
+        <div class="swap-request-btn">Swap Request</div>
+        <a href="login.html" class="login-btn">Login</a>
+      </div>
+    </header><div class="search-bar">
+  <select>
+    <option>Availability</option>
+    <option>Available Now</option>
+    <option>Next Week</option>
+  </select>
+  <input type="text" id="skill-search" placeholder="Search skills or people...">
+  <button>Search</button>
+</div>
+
+<div class="profile-list">
+  <!-- Profile Card -->
+  <div class="profile-card">
+    <div class="profile-left">
+      <div class="avatar">👤</div>
+      <div class="profile-info">
+        <h3>Neha</h3>
+        <div class="skills">
+          <p><span class="badge offer">JavaScript</span> <span class="badge offer">HTML</span> <span
+              class="badge offer">SQL</span> </p>
+          <p><span class="badge want">Graphic Design</span></p>
+        </div>
+        <div class="rating-section">
+          <label for="rating-neha">Rating:</label>
+          <input type="number" id="rating-neha" min="1" max="5" step="0.1" value="3.5">
+          <span class="rating-value">⭐ 3.5 / 5</span>
+        </div>
+      </div>
+    </div>
+    <button class="request-btn">Request</button>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-left">
+      <div class="avatar">👤</div>
+      <div class="profile-info">
+        <h3>Rishikesh</h3>
+        <div class="skills">
+          <p><span class="badge offer">HTML</span> <span class="badge offer">C++</span> <span
+              class="badge offer">CSS</span></p>
+          <p><span class="badge want">AI/ML</span></p>
+        </div>
+        <div class="rating-section">
+          <label for="rating-rishi">Rating:</label>
+          <input type="number" id="rating-rishi" min="1" max="5" step="0.1" value="3.5">
+          <span class="rating-value">⭐ 3.5 / 5</span>
+        </div>
+      </div>
+    </div>
+    <button class="request-btn">Request</button>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-left">
+      <div class="avatar">👤</div>
+      <div class="profile-info">
+        <h3>Aryan</h3>
+        <div class="skills">
+          <p><span class="badge offer">CSS</span> <span class="badge offer">HTML</span> <span
+              class="badge offer">C/C++</span></p>
+          <p><span class="badge want">JavaScript</span></p>
+        </div>
+        <div class="rating-section">
+          <label for="rating-aryan">Rating:</label>
+          <input type="number" id="rating-aryan" min="1" max="5" step="0.1" value="3.5">
+          <span class="rating-value">⭐ 3.5 / 5</span>
+        </div>
+      </div>
+    </div>
+    <button class="request-btn">Request</button>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-left">
+      <div class="avatar">👤</div>
+      <div class="profile-info">
+        <h3>Rohit</h3>
+        <div class="skills">
+          <p><span class="badge offer">JavaScript</span> <span class="badge offer">CSS</span> <span
+              class="badge offer">C/C++</span> <span class="badge offer">HTML</span></p>
+          <p><span class="badge want">Python</span></p>
+        </div>
+        <div class="rating-section">
+          <label for="rating-rohit">Rating:</label>
+          <input type="number" id="rating-rohit" min="1" max="5" step="0.1" value="3.5">
+          <span class="rating-value">⭐ 3.5 / 5</span>
+        </div>
+      </div>
+    </div>
+    <button class="request-btn">Request</button>
+  </div>
+</div>
+
+  </div>  <script src="home.js"></script></body></html>
