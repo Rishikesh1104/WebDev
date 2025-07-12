@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -24,6 +24,12 @@
       border-bottom: 1px solid #ccc;
 
     }
+    .profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
     .navbar a {
       text-decoration: none;
@@ -85,6 +91,41 @@
       margin: 0 5px;
       cursor: pointer;
     }
+    .profile-sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 300px;
+  height: 100%;
+  background: #1c1c1c;
+  color: #0dac91;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  overflow-y: auto;
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.profile-sidebar.open {
+  right: 0;
+}
+
+.profile-sidebar .close-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  color: red;
+}
+
+.profile-sidebar .profile-img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+  font-size: 50px;
+  text-align: center;
+}
   </style>
 </head>
 
@@ -110,7 +151,10 @@
   <div id="requestsContainer"></div>
 
   <div class="pagination" id="pagination"></div>
-
+<div id="profileSidebar" class="profile-sidebar">
+  <span class="close-btn" onclick="closeSidebar()">✖</span>
+  <div id="profileContent"></div>
+</div>
 <script>
   const requests = [
     { name: 'Alice', skillsOffered: 'HTML', skillsWanted: 'CSS', status: 'Pending', rating: '4.1', isPublic: true, img: 'https://i.pravatar.cc/150?u=Alice' },
@@ -152,14 +196,7 @@
     paginated.forEach(req => {
       const card = document.createElement('div');
       card.className = 'card';
-      card.onclick = () => alert(`
-Name: ${req.name}
-Skills Offered: ${req.skillsOffered}
-Skills Wanted: ${req.skillsWanted}
-Rating: ${req.rating}
-Status: ${req.status}
-Privacy: ${req.isPublic ? 'Public' : 'Private'}
-      `.trim());
+      card.onclick = () => openSidebar(req);
 
       const profileDisplay = req.isPublic && req.img
         ? `<img src="${req.img}" class="profile-img" alt="${req.name}">`
@@ -195,6 +232,31 @@ Privacy: ${req.isPublic ? 'Public' : 'Private'}
       };
       pagination.appendChild(pageSpan);
     }
+  }
+
+  function openSidebar(req) {
+    const sidebar = document.getElementById('profileSidebar');
+    const content = document.getElementById('profileContent');
+
+    const profileDisplay = req.isPublic && req.img
+      ? `<img src="${req.img}" class="profile-img" alt="${req.name}">`
+      : `<div class="profile-img">🙈</div>`;
+
+    content.innerHTML = `
+      ${profileDisplay}
+      <h3>${req.name}</h3>
+      <p><strong>Skills Offered:</strong> ${req.skillsOffered}</p>
+      <p><strong>Skills Wanted:</strong> ${req.skillsWanted}</p>
+      <p><strong>Rating:</strong> ${req.rating}</p>
+      <p><strong>Status:</strong> ${req.status}</p>
+      <p><strong>Privacy:</strong> ${req.isPublic ? 'Public' : 'Private'}</p>
+    `;
+
+    sidebar.classList.add('open');
+  }
+
+  function closeSidebar() {
+    document.getElementById('profileSidebar').classList.remove('open');
   }
 
   function updateStatus(name, newStatus) {
