@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Swap Requests | Skill Swap</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #f8f8f8;
+      background: #0f0f0f;
+      color: #0dac91;
+      padding: 20px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background:black;
+      padding: 10px 20px;
+      border-bottom: 1px solid #ccc;
+
+    }
+
+    .navbar a {
+      text-decoration: none;
+      background:  rgb(16, 144, 161);
+      padding: 8px 15px;
+      border-radius: 15px;
+      font-weight: bold;
+      color: whitesmoke ;
+    }
+
+    .profile-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    .filter-bar {
+      margin: 20px 0;
+    }
+
+    .filter-bar select,
+    .filter-bar input {
+      padding: 8px;
+      margin-right: 10px;
+    }
+
+    .card {
+      background: rgb(2, 43, 48);
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .card:hover {
+      border-color: #00cec9;
+      transform: scale(1.01);
+    }
+
+    .status-buttons span {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+
+    .status-buttons .accept {
+      color: green;
+    }
+
+    .status-buttons .reject {
+      color: red;
+    }
+
+    .pagination {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .pagination span {
+      margin: 0 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="navbar">
+    <a href="./home/Index.html">Home</a>
+    <img src="https://i.pravatar.cc/40" class="profile-img" alt="Profile">
+  </div>
+
+  <h2>Skill Swap Platform</h2>
+
+  <div class="filter-bar">
+    <select id="filterStatus">
+      <option value="All">All</option>
+      <option value="Pending">Pending</option>
+      <option value="Accepted">Accepted</option>
+      <option value="Rejected">Rejected</option>
+    </select>
+    <input type="text" id="searchInput" placeholder="Search by name...">
+    <button onclick="renderRequests()">Search</button>
+  </div>
+
+  <div id="requestsContainer"></div>
+
+  <div class="pagination" id="pagination"></div>
+
+<script>
+  const requests = [
+    { name: 'Alice', skillsOffered: 'HTML', skillsWanted: 'CSS', status: 'Pending', rating: '4.1', isPublic: true, img: 'https://i.pravatar.cc/150?u=Alice' },
+    { name: 'Bob', skillsOffered: 'JavaScript', skillsWanted: 'React', status: 'Pending', rating: '3.8', isPublic: false },
+    { name: 'Carol', skillsOffered: 'Python', skillsWanted: 'Django', status: 'Accepted', rating: '4.5', isPublic: true, img: 'https://i.pravatar.cc/150?u=Carol' },
+    { name: 'Dan', skillsOffered: 'Java', skillsWanted: 'Spring', status: 'Rejected', rating: '3.5', isPublic: false },
+    { name: 'Eva', skillsOffered: 'C++', skillsWanted: 'DSA', status: 'Pending', rating: '4.0', isPublic: true, img: 'https://i.pravatar.cc/150?u=Eva' },
+    { name: 'Frank', skillsOffered: 'Node.js', skillsWanted: 'MongoDB', status: 'Pending', rating: '4.3', isPublic: true, img: 'https://i.pravatar.cc/150?u=Frank' },
+    { name: 'Grace', skillsOffered: 'MySQL', skillsWanted: 'PHP', status: 'Rejected', rating: '3.9', isPublic: false },
+    { name: 'Henry', skillsOffered: 'Swift', skillsWanted: 'iOS Dev', status: 'Pending', rating: '4.7', isPublic: true, img: 'https://i.pravatar.cc/150?u=Henry' },
+    { name: 'Ivy', skillsOffered: 'Kotlin', skillsWanted: 'Android', status: 'Accepted', rating: '4.6', isPublic: false },
+    { name: 'Jack', skillsOffered: 'Go', skillsWanted: 'Microservices', status: 'Pending', rating: '3.7', isPublic: true, img: 'https://i.pravatar.cc/150?u=Jack' },
+    { name: 'Kira', skillsOffered: 'Unity', skillsWanted: 'Game Dev', status: 'Pending', rating: '4.2', isPublic: true, img: 'https://i.pravatar.cc/150?u=Kira' },
+    { name: 'Leo', skillsOffered: 'Machine Learning', skillsWanted: 'TensorFlow', status: 'Rejected', rating: '4.4', isPublic: false },
+  ];
+
+  let currentPage = 1;
+  const requestsPerPage = 5;
+
+  function renderRequests() {
+    const container = document.getElementById('requestsContainer');
+    const pagination = document.getElementById('pagination');
+    container.innerHTML = '';
+    pagination.innerHTML = '';
+
+    const statusFilter = document.getElementById('filterStatus').value;
+    const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+
+    const filteredRequests = requests.filter(req =>
+      (statusFilter === 'All' || req.status === statusFilter) &&
+      req.name.toLowerCase().includes(searchQuery)
+    );
+
+    const totalPages = Math.ceil(filteredRequests.length / requestsPerPage);
+    const start = (currentPage - 1) * requestsPerPage;
+    const end = start + requestsPerPage;
+    const paginated = filteredRequests.slice(start, end);
+
+    paginated.forEach(req => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.onclick = () => alert(`
+Name: ${req.name}
+Skills Offered: ${req.skillsOffered}
+Skills Wanted: ${req.skillsWanted}
+Rating: ${req.rating}
+Status: ${req.status}
+Privacy: ${req.isPublic ? 'Public' : 'Private'}
+      `.trim());
+
+      const profileDisplay = req.isPublic && req.img
+        ? `<img src="${req.img}" class="profile-img" alt="${req.name}">`
+        : `<div class="profile-img" style="font-size: 25px; display: flex; align-items: center; justify-content: center; background: #444;">🙈</div>`;
+
+      card.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+          ${profileDisplay}
+          <div>
+            <strong>${req.name}</strong><br>
+            <small>Skills Offered: ${req.skillsOffered}</small><br>
+            <small>Skills Wanted: ${req.skillsWanted}</small><br>
+            <small>Rating: ${req.rating}/5</small><br>
+          </div>
+        </div>
+        <div class="status-buttons" style="margin-top: 10px;">
+          Status: ${req.status === 'Pending' ? `
+            <span class="accept" onclick="event.stopPropagation(); updateStatus('${req.name}', 'Accepted')">Accept</span>
+            <span class="reject" onclick="event.stopPropagation(); updateStatus('${req.name}', 'Rejected')">Reject</span>
+          ` : `<span style="color: ${req.status === 'Accepted' ? 'green' : 'red'}">${req.status}</span>`}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+
+    for (let i = 1; i <= totalPages; i++) {
+      const pageSpan = document.createElement('span');
+      pageSpan.innerText = i;
+      pageSpan.style.fontWeight = (i === currentPage) ? 'bold' : 'normal';
+      pageSpan.onclick = () => {
+        currentPage = i;
+        renderRequests();
+      };
+      pagination.appendChild(pageSpan);
+    }
+  }
+
+  function updateStatus(name, newStatus) {
+    const req = requests.find(r => r.name === name);
+    if (req) req.status = newStatus;
+    renderRequests();
+  }
+
+  renderRequests();
+</script>
+</body>
+
+</html>
