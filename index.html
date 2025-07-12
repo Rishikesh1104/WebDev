@@ -1,0 +1,240 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile</title>
+  <style>
+
+    @media  (max-width:600px){
+      body{
+      align-self: start;}
+  
+    }
+      
+      
+    
+    body {
+      font-family: Arial, sans-serif;
+      background: #3e59d3;
+      padding: 20px;
+    }
+
+    body:hover{
+        background-color: rgb(53, 146, 233);
+    }
+    .container {
+      max-width: 800px;
+      background: #f9f9fb;
+      margin: auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .header button {
+      margin-left: 10px;
+    }
+    .profile-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #ddd;
+      margin-left: 80px;
+    }
+    .form-group {
+        display: flex;
+      margin-bottom: 15px;
+      margin-top: 30px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .tag {
+      background: #e0e0e0;
+      border-radius: 20px;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+    }
+    .tag button {
+      margin-left: 5px;
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+    }
+    #name{
+        margin-left: 80px;
+        border-radius: 4px;
+        border: 2px solid black;
+
+    }
+
+   
+    #location{
+        margin-left: 60px;
+        border-radius: 4px;
+        border: 2px solid black;
+    }
+    
+    #swap{
+        font-weight: 700;
+        color: green;
+    }
+
+    #home{
+        font-weight: 700;
+        color: red;
+    }
+     
+    #availability{
+        margin-left: 40px;
+        border-radius: 4px;
+        border: 2px solid black;
+    }
+
+    #profileType{
+
+        margin-left: 80px;
+        border-radius: 4px;
+        border: 2px solid black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <button onclick="saveProfile()" style="color: green; font-weight: 700; ">Save</button>
+        <button onclick="discardProfile()" style="color: red; margin-left: 30px;font-weight: 700;">Discard</button>
+      </div>
+      <div>
+        <button id="swap">Swap Request</button>
+        <button id="home">Home</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="name" class="input" placeholder="please enter your name"/>
+    </div>
+    <div class="form-group">
+      <label>Location</label>
+      <input type="text" id="location" class="input" placeholder="please enter your location" />
+    </div>
+    <div class="form-group">
+      <label>Profile Photo</label>
+      <img id="profilePhoto" class="profile-photo" src=""   />
+      <input type="file" id="photoInput" onchange="uploadPhoto(event)" />
+      <button onclick="removePhoto()" style="color: rgb(8, 8, 159); font-weight: 700; width: 100px; height: 30px;">Remove</button>
+    </div>
+    <div class="form-group">
+      <label>Skills Offered</label>
+      <div id="skillsOffered" class="tags"></div>
+      <input type="text" id="offeredInput" placeholder="Add skill" onkeydown="addSkill(event, 'offered')"  />
+    </div>
+    <div class="form-group">
+      <label>Skills Wanted</label>
+      <div id="skillsWanted" class="tags"></div>
+      <input type="text" id="wantedInput" placeholder="Add skill" onkeydown="addSkill(event, 'wanted')" />
+    </div>
+    <div class="form-group">
+      <label>Availability</label>
+      <input type="text" id="availability" value="weekends" />
+    </div>
+    <div class="form-group">
+      <label>Profile</label>
+      <select id="profileType">
+        <option value="public">Public</option>
+        <option value="private">Private</option>
+      </select>
+    </div>
+  </div>  <script>
+    const offeredSkills = ["Graphic Design", "Video Editing", "Photoshop"];
+    const wantedSkills = ["Python", "JavaScript", "Manager"];
+
+    const renderSkills = (skills, containerId, type) => {
+      const container = document.getElementById(containerId);
+      container.innerHTML = "";
+      skills.forEach(skill => {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.innerHTML = `${skill} <button onclick="removeSkill('${skill}', '${type}')">x</button>`;
+        container.appendChild(tag);
+      });
+    };
+
+    const addSkill = (e, type) => {
+      if (e.key === "Enter") {
+        const skill = e.target.value.trim();
+        if (!skill) return;
+        if (type === "offered") {
+          offeredSkills.push(skill);
+          renderSkills(offeredSkills, "skillsOffered", "offered");
+        } else {
+          wantedSkills.push(skill);
+          renderSkills(wantedSkills, "skillsWanted", "wanted");
+        }
+        e.target.value = "";
+      }
+    };
+
+    const removeSkill = (skill, type) => {
+      if (type === "offered") {
+        const index = offeredSkills.indexOf(skill);
+        if (index > -1) offeredSkills.splice(index, 1);
+        renderSkills(offeredSkills, "skillsOffered", "offered");
+      } else {
+        const index = wantedSkills.indexOf(skill);
+        if (index > -1) wantedSkills.splice(index, 1);
+        renderSkills(wantedSkills, "skillsWanted", "wanted");
+      }
+    };
+
+    const uploadPhoto = (event) => {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById("profilePhoto").src = e.target.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    };
+
+    const removePhoto = () => {
+      document.getElementById("profilePhoto").src = "";
+      document.getElementById("photoInput").value = "";
+    };
+
+    const discardProfile = () => {
+      location.reload();
+    };
+
+    const saveProfile = () => {
+      const profile = {
+        name: document.getElementById("name").value,
+        location: document.getElementById("location").value,
+        skillsOffered: offeredSkills,
+        skillsWanted: wantedSkills,
+        availability: document.getElementById("availability").value,
+        profileType: document.getElementById("profileType").value,
+        photo: document.getElementById("profilePhoto").src,
+      };
+      console.log("Saved profile:", profile);
+      alert("Profile saved to console!");
+    };
+
+    renderSkills(offeredSkills, "skillsOffered", "offered");
+    renderSkills(wantedSkills, "skillsWanted", "wanted");
+  </script></body>
+</html>
