@@ -1,67 +1,84 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>User Profile</title>
   <style>
-
-    @media  (max-width:600px){
-      body{
-      align-self: start;}
-  
+    * {
+      box-sizing: border-box;
     }
-      
-      
-    
+
     body {
       font-family: Arial, sans-serif;
-      background: #3e59d3;
+      background: black;
       padding: 20px;
+      margin: 0;
     }
 
-    body:hover{
-        background-color: rgb(53, 146, 233);
-    }
+
     .container {
       max-width: 800px;
-      background: #f9f9fb;
+      background: #0fa4a7;
       margin: auto;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
+    .container:hover {
+      border-color: rgb(7, 219, 247);
+      transform: scale(1.01);
+    }
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
       margin-bottom: 20px;
     }
+
     .header button {
-      margin-left: 10px;
+      margin: 5px;
     }
+
     .profile-photo {
       width: 100px;
       height: 100px;
       border-radius: 50%;
       object-fit: cover;
       background: #ddd;
-      margin-left: 80px;
+      margin: 10px 0;
     }
+
     .form-group {
-        display: flex;
+      display: flex;
+      flex-direction: column;
       margin-bottom: 15px;
-      margin-top: 30px;
     }
+
     .form-group label {
-      display: block;
-      margin-bottom: 5px;
       font-weight: bold;
+      margin-bottom: 5px;
     }
+
+    .form-group input,
+    .form-group select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: 2px solid black;
+      width: 100%;
+    }
+
     .tags {
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
     }
+
     .tag {
       background: #e0e0e0;
       border-radius: 20px;
@@ -69,6 +86,7 @@
       display: flex;
       align-items: center;
     }
+
     .tag button {
       margin-left: 5px;
       background: none;
@@ -76,44 +94,51 @@
       color: red;
       cursor: pointer;
     }
-    #name{
-        margin-left: 80px;
-        border-radius: 4px;
-        border: 2px solid black;
 
+    #swap {
+      font-weight: 700;
+      color: green;
     }
 
-   
-    #location{
-        margin-left: 60px;
-        border-radius: 4px;
-        border: 2px solid black;
-    }
-    
-    #swap{
-        font-weight: 700;
-        color: green;
+    #home {
+      font-weight: 700;
+      color: red;
     }
 
-    #home{
-        font-weight: 700;
-        color: red;
-    }
-     
-    #availability{
-        margin-left: 40px;
-        border-radius: 4px;
-        border: 2px solid black;
-    }
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    #profileType{
+      .form-group {
+        flex-direction: column;
+      }
 
-        margin-left: 80px;
-        border-radius: 4px;
-        border: 2px solid black;
+      .profile-photo {
+        width: 80px;
+        height: 80px;
+        margin: 10px auto;
+      }
+
+      .form-group input,
+      .form-group select {
+        width: 100%;
+      }
+
+      #swap,
+      #home {
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      button {
+        width: 100%;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <div class="header">
@@ -122,13 +147,17 @@
         <button onclick="discardProfile()" style="color: red; margin-left: 30px;font-weight: 700;">Discard</button>
       </div>
       <div>
-        <button id="swap">Swap Request</button>
-        <button id="home">Home</button>
+        <a href="swap.html" id="swap" style="text-decoration: none;">
+          <button style="font-weight: 700; color: green;">Swap requests</button>
+        </a>
+        <a href="index.html" id="home" style="text-decoration: none;">
+          <button style="font-weight: 700; color:red;">Home</button>
+        </a>
       </div>
     </div>
     <div class="form-group">
       <label>Name</label>
-      <input type="text" id="name" class="input" placeholder="please enter your name"/>
+      <input type="text" id="name" class="input" placeholder="please enter your name" />
     </div>
     <div class="form-group">
       <label>Location</label>
@@ -136,14 +165,15 @@
     </div>
     <div class="form-group">
       <label>Profile Photo</label>
-      <img id="profilePhoto" class="profile-photo" src=""   />
+      <img id="profilePhoto" class="profile-photo" src="" />
       <input type="file" id="photoInput" onchange="uploadPhoto(event)" />
-      <button onclick="removePhoto()" style="color: rgb(8, 8, 159); font-weight: 700; width: 100px; height: 30px;">Remove</button>
+      <button onclick="removePhoto()"
+        style="color: rgb(8, 8, 159); font-weight: 700; width: 100px; height: 30px;">Remove</button>
     </div>
     <div class="form-group">
       <label>Skills Offered</label>
       <div id="skillsOffered" class="tags"></div>
-      <input type="text" id="offeredInput" placeholder="Add skill" onkeydown="addSkill(event, 'offered')"  />
+      <input type="text" id="offeredInput" placeholder="Add skill" onkeydown="addSkill(event, 'offered')" />
     </div>
     <div class="form-group">
       <label>Skills Wanted</label>
@@ -161,7 +191,8 @@
         <option value="private">Private</option>
       </select>
     </div>
-  </div>  <script>
+  </div>
+  <script>
     const offeredSkills = ["Graphic Design", "Video Editing", "Photoshop"];
     const wantedSkills = ["Python", "JavaScript", "Manager"];
 
@@ -205,7 +236,7 @@
 
     const uploadPhoto = (event) => {
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         document.getElementById("profilePhoto").src = e.target.result;
       };
       reader.readAsDataURL(event.target.files[0]);
@@ -236,5 +267,7 @@
 
     renderSkills(offeredSkills, "skillsOffered", "offered");
     renderSkills(wantedSkills, "skillsWanted", "wanted");
-  </script></body>
+  </script>
+</body>
+
 </html>
